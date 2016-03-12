@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+header
+{
+   text-align:center;
+   display:block;
+   color:blue;
+   background-color:#ffffff;
+   font-size:400%;
+}
+button
+{
+   border:1px solid #0000aa;
+   border-radius:5px;
+   display:block;
+   color:blue;
+   background-color:#aaaaff;
+   font-size:100%;
+   margin-bottom:15px;
+}
+a
+{
+   text-decoration:none;
+}
+h2                            
+{
+   color:blue;
+   font-size:250%;
+}
+
+</style>
+</head>
+<body>
+<header>GROSHOP</header><br><br>
+<div style="text-align:left;background-color:#ddddff;color:#0000aa;font-size:150%">
+	<a href="www.codesapient.com/groshop/admin/home.php">Admin Home<a/> 
+	>> <a href="www.codesapient.com/groshop/admin/categories.php">Categories</a> 
+	>> <a href="">Add category</a>
+</div>
+<center>
+<h2>ADD NEW CATEGORY</h2>
+<form action="add_category.php" method="post">
+<table>
+<tr>
+<td align="right">Category id   :</td> <td align="left"><input type="text"  name="category_id"></td></tr>
+<tr>
+<td align="right">Category name :</td> <td align="left"> <input type="text"  name="category_name"></td></tr>
+<tr>
+<td align="right">Image link 	:</td> <td align="left"> <input type="text"  name="image"></td></tr>
+</table>
+<br>
+<button>Add Category</button>
+</form>
+</body>
+</html>

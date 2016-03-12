@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+header
+{
+   text-align:center;
+   display:block;
+   color:blue;
+   background-color:#ffffff;
+   font-size:400%;
+}
+button
+{
+   border:1px solid #0000aa;
+   border-radius:5px;
+   display:block;
+   color:blue;
+   background-color:#aaaaff;
+   font-size:100%;
+   margin-bottom:15px;
+}
+a
+{
+   text-decoration:none;
+}
+h2                            
+{
+   color:blue;
+   font-size:250%;
+}
+</style>
+</head>
+<body>
+<header>GROSHOP</header><br><br>
+
+<?php
+include('conn.php');
+$product_id=$_GET['product_id'];
+$cat_id=$_GET['cat_id'];
+$sid=
+$query="select category_id,category_name from categories where category_id=(select category_id from items where product_id='$product_id')";
+$query1="select sub_cat_id,sub_cat_name from sub_categories where sub_cat_id=(select sub_cat_id from items where product_id='$product_id')";
+$query3="select * from items where product_id='$product_id'";
+
+$result=mysqli_query($conn,$query);
+$result1=mysqli_query($conn,$query1);
+$result3=mysqli_query($conn,$query3);
+
+if(!($result) | !($result1) | !($result3))
+{
+	echo "Error";
+}
+
+$row = $result->fetch_assoc();
+$row1 = $result1->fetch_assoc();
+$row3 = $result3->fetch_assoc();
+
+$cat_id=$row['category_id'];
+$query2="select sub_cat_id,sub_cat_name from sub_categories where category_id='$cat_id'";
+$result2=mysqli_query($conn,$query2);
+
+if(!($result2))
+{
+	echo "Error";
+}
+
+?>
+<div style="text-align:left;background-color:#ddddff;color:#0000aa;font-size:150%">
+	<a href="home.php">Admin Home</a> 
+	>> <a href="categories.php">Categories</a> 
+	>> <a href="sub_categories.php?cat_id=<?php echo $cat_id;?>"><?php echo $row["category_name"];?></a>
+	>> <a href="items.php?cat_id=<?php echo $row['category_id'];?>&sub_cat_id=<?php echo $row1['sub_cat_id'];?>"><?php echo $row1["sub_cat_name"];?></a>
+	>> <a href="">Modify Product details</a>
+</div>
+<center><br>
+<h2>Modify <?php echo $row3["product_name"];?></h2>
+<form action="modify_item1.php?cat_id=<?php echo $cat_id;?>&sub_cat_id=<?php echo $sub_cat_id;?>&product_id=<?php echo $product_id?>" method="post">
+Category : <?php echo $row["category_name"];?>
+Sub-Category : 
+<select name="sub_cat_id">
+<?php
+while($row2=$result2->fetch_assoc())
+{
+	if($row2["sub_cat_id"]==$row1["sub_cat_id"])
+	{
+		echo "<option value='".$row2["sub_cat_id"]."' selected>".$row2['sub_cat_name']."</option>";
+	}
+	else
+	{
+		echo "<option value='".$row2["sub_cat_id"]."'>".$row2['sub_cat_name']."</option>";
+	}
+}
+?>	
+</select>
+<br><br>
+Product name : <input type="text" name="product_name" value="<?php echo $row3["product_name"];?>"><br><br>
+Product Id : <input type="text" name="product_id" value="<?php echo $row3["product_id"];?>"><br><br>
+Quantity : <input type="text" name="quantity" value="<?php echo $row3["quantity"];?>"><br><br>
+Price : <input type="text" name="price" value="<?php echo $row3["price"];?>"><br><br>
+Available : <input type="text" name="available" value="<?php echo $row3["available"];?>"><br><br>
+Image link : <input type="text" name="image" value="<?php echo $row3["image"];?>">
+<img src='<?php echo $row3["image"];?>' alt="image here" height="100" width="100">
+<br><br>
+<button>Modify</button>
+</form>
+<a href="sub_categories.php?cat_id=<?php echo $cat_id;?>"><button>Cancel</button></a>
+</body>
+</html>
